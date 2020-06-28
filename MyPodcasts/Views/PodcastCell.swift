@@ -29,6 +29,7 @@ class PodcastCell: UITableViewCell {
             
             guard let url = URL(string: podcast.artworkUrl600 ?? "") else { return }
             
+            //without caching
 //            URLSession.shared.dataTask(with: url) { (data, _, _) in
 //                print("Finished downloading image data: ", data)
 //                guard let data = data else { return }
@@ -38,6 +39,7 @@ class PodcastCell: UITableViewCell {
 //                }
 //            }.resume()
             
+            //with caching
             podcastImageView.sd_setImage(with: url, completed: nil)
         }
     }

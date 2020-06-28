@@ -52,7 +52,9 @@ class MainTabBarController: UITabBarController {
         if #available(iOS 13, *) {
             let appearance = self.tabBar.standardAppearance.copy()
             appearance.configureWithTransparentBackground()
+            tabBar.isTranslucent = false
             tabBar.standardAppearance = appearance
+            tabBar.backgroundColor = .white
             tabBar.tintColor = .purple
         } else {
             tabBar.tintColor = .purple

@@ -8,13 +8,37 @@
 
 import Foundation
 import Alamofire
-
+import FeedKit
 
 class APIService {
     
     
     //singleton
     static let shared = APIService()
+    
+    
+    func fetchEpisodes(feedURL: String, completionHandler: @escaping ([Episode]) -> ()) {
+        let secureFeedUrl = feedURL.contains("https") ? feedURL : feedURL.replacingOccurrences(of: "http", with: "https")
+        
+        guard let url = URL(string: secureFeedUrl) else { return }
+        let parser = FeedParser(URL: url)
+        // Parse asynchronously, not to block the UI.
+        parser.parseAsync { (result) in
+            
+            switch result {
+            
+            case .success(let feed):
+                
+                guard let feed = feed.rssFeed else { return }
+                
+                let episodes = feed.toEpisodes()
+                completionHandler(episodes)
+               
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
     
     func fetchPodcasts(searchText: String, completionHandler: @escaping ([Podcast]) -> ()) {
         print("searching for podcasts...")

@@ -15,7 +15,7 @@ class PodcastsSearchController: UITableViewController, UISearchBarDelegate {
     
     let cellId = "cellId"
     
-    
+    var timer: Timer?
     //implementing search bar
     let searchController = UISearchController(searchResultsController: nil)
     
@@ -50,10 +50,19 @@ class PodcastsSearchController: UITableViewController, UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
-        APIService.shared.fetchPodcasts(searchText: searchText) { (podcasts) in
-            self.podcasts = podcasts
-            self.tableView.reloadData()
-        }
+        podcasts = []
+        tableView.reloadData()
+        
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { (timer) in
+            APIService.shared.fetchPodcasts(searchText: searchText) { (podcasts) in
+                self.podcasts = podcasts
+                self.tableView.reloadData()
+            }
+        })
+        
+        
+        
     }
     
     
@@ -70,6 +79,7 @@ class PodcastsSearchController: UITableViewController, UISearchBarDelegate {
         
     }
     
+    
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel()
         label.text = "Please enter a search term"
@@ -82,21 +92,34 @@ class PodcastsSearchController: UITableViewController, UISearchBarDelegate {
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return self.podcasts.count > 0 ? 0 : 250
     }
+    
+    
+    var podcastSearchView = Bundle.main.loadNibNamed("PodcastsSearchingView", owner: self, options: nil)?.first as? UIView
+    
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        
+        return podcastSearchView
+    }
+    
+    
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return podcasts.isEmpty && searchController.searchBar.text?.isEmpty == false ? 200 : 0
+    }
 
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return podcasts.count
     }
+    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! PodcastCell
         let podcast = self.podcasts[indexPath.row]
         cell.podcast = podcast
-        
-        
-
         return cell
     }
+    
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 132

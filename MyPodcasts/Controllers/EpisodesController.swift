@@ -57,24 +57,45 @@ class EpisodesController: UITableViewController {
     //MARK:- UITableView
     
     
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+       
+        let activityIndicatorView  = UIActivityIndicatorView()
+        activityIndicatorView.style = .large
+        activityIndicatorView.color = .darkGray
+        activityIndicatorView.startAnimating()
+        return activityIndicatorView
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return episodes.isEmpty ? 200 : 0 
+    }
+    
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let episode = self.episodes[indexPath.row]
-        print("Trying to play episode: ", episode.title)
         
-        if let keyWindow = UIWindow.key {
-            
-            let playerDetailsView = Bundle.main.loadNibNamed("PlayerDetailsView", owner: self, options: nil)?.first as! PlayerDetailsView
-            
-            playerDetailsView.episode = episode
-            
-            
-            playerDetailsView.frame = keyWindow.frame
-            keyWindow.addSubview(playerDetailsView)
+        let episode = self.episodes[indexPath.row]
+        let mainTabBarController = UIApplication.shared.windows.filter { $0.isKeyWindow }.first?.rootViewController as? MainTabBarController
+        
+        mainTabBarController?.maximizePlayerDetails(episode: episode)
+//        let episode = self.episodes[indexPath.row]
+//        print("Trying to play episode: ", episode.title) 
+//
+//        if let keyWindow = UIWindow.key {
+//
+//            let playerDetailsView = PlayerDetailsView.initFromNib()
+//
+//            playerDetailsView.episode = episode
+//
+//
+//            playerDetailsView.frame = keyWindow.frame
+//            keyWindow.addSubview(playerDetailsView)
+        
+        
         }
 
         //let window = UIApplication.shared.windows.first { $0.isKeyWindow }
         
-    }
+    
     
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

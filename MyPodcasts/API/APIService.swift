@@ -21,21 +21,26 @@ class APIService {
         let secureFeedUrl = feedURL.contains("https") ? feedURL : feedURL.replacingOccurrences(of: "http", with: "https")
         
         guard let url = URL(string: secureFeedUrl) else { return }
-        let parser = FeedParser(URL: url)
-        // Parse asynchronously, not to block the UI.
-        parser.parseAsync { (result) in
-            
-            switch result {
-            
-            case .success(let feed):
+        
+        //parse in background thread
+        
+        DispatchQueue.global(qos: .background).async {
+            let parser = FeedParser(URL: url)
+            // Parse asynchronously, not to block the UI.
+            parser.parseAsync { (result) in
                 
-                guard let feed = feed.rssFeed else { return }
+                switch result {
                 
-                let episodes = feed.toEpisodes()
-                completionHandler(episodes)
-               
-            case .failure(let error):
-                print(error)
+                case .success(let feed):
+                    
+                    guard let feed = feed.rssFeed else { return }
+                    
+                    let episodes = feed.toEpisodes()
+                    completionHandler(episodes)
+                   
+                case .failure(let error):
+                    print(error)
+                }
             }
         }
     }

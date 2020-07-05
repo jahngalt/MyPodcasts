@@ -19,8 +19,10 @@
 		ED3DCC58249EB86C00BAC57A /* PodcastCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ED3DCC57249EB86C00BAC57A /* PodcastCell.xib */; };
 		ED3DCC5A249EBBE700BAC57A /* PodcastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3DCC59249EBBE700BAC57A /* PodcastCell.swift */; };
 		ED3DCC5C249F645B00BAC57A /* EpisodesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED3DCC5B249F645A00BAC57A /* EpisodesController.swift */; };
+		ED55ABE524B04C26006B112E /* PodcastsSearchingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = ED55ABE424B04C26006B112E /* PodcastsSearchingView.xib */; };
 		ED97A7AF24A8D27A00BDCF5D /* PlayerDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = ED97A7AE24A8D27A00BDCF5D /* PlayerDetailsView.xib */; };
 		ED97A7B124A8E37600BDCF5D /* PlayerDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED97A7B024A8E37600BDCF5D /* PlayerDetailsView.swift */; };
+		EDC4CF7724AB0F650093A6F8 /* CMTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDC4CF7624AB0F650093A6F8 /* CMTime.swift */; };
 		EDF1C55B2493665800124A17 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF1C55A2493665800124A17 /* AppDelegate.swift */; };
 		EDF1C55D2493665800124A17 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF1C55C2493665800124A17 /* SceneDelegate.swift */; };
 		EDF1C55F2493665800124A17 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDF1C55E2493665800124A17 /* ViewController.swift */; };
@@ -45,8 +47,10 @@
 		ED3DCC57249EB86C00BAC57A /* PodcastCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PodcastCell.xib; sourceTree = "<group>"; };
 		ED3DCC59249EBBE700BAC57A /* PodcastCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastCell.swift; sourceTree = "<group>"; };
 		ED3DCC5B249F645A00BAC57A /* EpisodesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodesController.swift; sourceTree = "<group>"; };
+		ED55ABE424B04C26006B112E /* PodcastsSearchingView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PodcastsSearchingView.xib; sourceTree = "<group>"; };
 		ED97A7AE24A8D27A00BDCF5D /* PlayerDetailsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayerDetailsView.xib; sourceTree = "<group>"; };
 		ED97A7B024A8E37600BDCF5D /* PlayerDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerDetailsView.swift; sourceTree = "<group>"; };
+		EDC4CF7624AB0F650093A6F8 /* CMTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMTime.swift; sourceTree = "<group>"; };
 		EDF1C5572493665800124A17 /* MyPodcasts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyPodcasts.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EDF1C55A2493665800124A17 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EDF1C55C2493665800124A17 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -101,6 +105,7 @@
 			children = (
 				ED2801B024A2774700EC30AC /* String.swift */,
 				ED2801B224A2782C00EC30AC /* RSSFeed.swift */,
+				EDC4CF7624AB0F650093A6F8 /* CMTime.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -122,6 +127,7 @@
 				ED220B3624A148AC00CF11FB /* EpisodeCell.xib */,
 				ED97A7AE24A8D27A00BDCF5D /* PlayerDetailsView.xib */,
 				ED97A7B024A8E37600BDCF5D /* PlayerDetailsView.swift */,
+				ED55ABE424B04C26006B112E /* PodcastsSearchingView.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -235,6 +241,7 @@
 			files = (
 				ED97A7AF24A8D27A00BDCF5D /* PlayerDetailsView.xib in Resources */,
 				EDF1C5672493665D00124A17 /* LaunchScreen.storyboard in Resources */,
+				ED55ABE524B04C26006B112E /* PodcastsSearchingView.xib in Resources */,
 				ED220B3824A148AC00CF11FB /* EpisodeCell.xib in Resources */,
 				EDF1C5642493665D00124A17 /* Assets.xcassets in Resources */,
 				ED3DCC58249EB86C00BAC57A /* PodcastCell.xib in Resources */,
@@ -304,6 +311,7 @@
 				EDF1C56F249366AC00124A17 /* MainTabBarController.swift in Sources */,
 				ED0466B5249BB70C00DDC031 /* PodcastsSearchController.swift in Sources */,
 				EDF1C55D2493665800124A17 /* SceneDelegate.swift in Sources */,
+				EDC4CF7724AB0F650093A6F8 /* CMTime.swift in Sources */,
 				ED3DCC5C249F645B00BAC57A /* EpisodesController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

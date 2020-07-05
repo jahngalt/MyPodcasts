@@ -38,23 +38,119 @@ class PlayerDetailsView: UIView {
         return avPlayer
     }()
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-        let time = CMTimeMake(value: 1, timescale: 3)
-        let times = [NSValue(time: time)]
-        
-        player.addBoundaryTimeObserver(forTimes: times, queue: .main) {
-            print("Episode started playing...")
-            self.enlargeEpisodeImageView()
+    fileprivate func observePlayerCurrentTime() {
+        let interval = CMTimeMake(value: 1, timescale: 2)
+        player.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] (time) in
+
+            self?.currentTimeLabel.text = time.toDisplayString()
+            
+            if let durationTime = self?.player.currentItem?.duration, self?.player.currentItem?.status == .readyToPlay {
+                self?.durationLabel.text = durationTime.toDisplayString()
+                self?.currentTimeSlider.value = Float(CMTimeGetSeconds(time)) / Float(CMTimeGetSeconds(durationTime))
+            }
+            
+            
+            //let durationTime = self?.player.currentItem?.duration
+            
+            //self?.durationLabel.text = durationTime?.toDisplayString()
+            
+            
+            //slider
+            self?.updateCurrentTimeSlider()
+            
         }
     }
     
     
+    fileprivate func updateCurrentTimeSlider() {
+        let currentTimeSeconds = CMTimeGetSeconds(player.currentTime())
+        let durationSeconds = CMTimeGetSeconds(player.currentItem?.duration ?? CMTimeMake(value: 1, timescale: 1))
+        let percentage = currentTimeSeconds / durationSeconds
+        
+        self.currentTimeSlider.value = Float(percentage)
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapMaximize)))
+        observePlayerCurrentTime()
+        
+        let time = CMTimeMake(value: 1, timescale: 3)
+        let times = [NSValue(time: time)]
+        
+        // player has a reference to self
+        // self has a reference to player
+        player.addBoundaryTimeObserver(forTimes: times, queue: .main) { [weak self] in
+            print("Episode started playing...")
+            self?.enlargeEpisodeImageView()
+        }
+    }
+    
+    
+    @objc func handleTapMaximize() {
+        let mainTabBarController = UIApplication.shared.windows.filter { $0.isKeyWindow }.first?.rootViewController as? MainTabBarController
+        
+        mainTabBarController?.maximizePlayerDetails(episode: nil)
+    }
+    
+    static func initFromNib() -> PlayerDetailsView {
+        return Bundle.main.loadNibNamed("PlayerDetailsView", owner: self, options: nil)?.first as! PlayerDetailsView
+    }
+    
+    
+    deinit {
+        print("PlayerDetailsView memory being reclaimed...")
+    }
+    
     //MARK:- IB Actions and Outlets
     
+    @IBAction func handleCurrentTimeSliderChange(_ sender: UISlider) {
+        print("Slider Value: ", currentTimeSlider.value)
+        let percentage = currentTimeSlider.value
+        guard let duration = player.currentItem?.duration else { return }
+        let durationInSeconds = CMTimeGetSeconds(duration)
+        let seekTimeInSeconds = Float64(percentage) * durationInSeconds
+        let seekTime = CMTimeMakeWithSeconds(seekTimeInSeconds, preferredTimescale: 1)
+        player.seek(to: seekTime)
+    }
+    
+    
+    @IBAction func handleRewind(_ sender: Any) {
+        seekToCurrentTime(delta: -15)
+    }
+    
+    
+    @IBAction func handleFastForward(_ sender: Any) {
+        seekToCurrentTime(delta: 15)
+    }
+    
+    
+    fileprivate func seekToCurrentTime(delta: Int64) {
+        let fifteenSeconds = CMTimeMake(value: delta, timescale: 1)
+        let seekTime = CMTimeAdd(player.currentTime(), fifteenSeconds)
+        player.seek(to: seekTime)
+    }
+    
+    
+    @IBAction func handleVolumeChange(_ sender: UISlider) {
+        player.volume = sender.value
+    }
+    
+    
+    
+    @IBOutlet weak var currentTimeLabel: UILabel!
+    @IBOutlet weak var durationLabel: UILabel!
+    @IBOutlet weak var currentTimeSlider: UISlider!
+
+    
     @IBAction func handleDismiss(_ sender: UIButton) {
-        self.removeFromSuperview()
+        //self.removeFromSuperview()
+        let mainTabBarController = UIApplication.shared.windows.filter { $0.isKeyWindow }.first?.rootViewController as? MainTabBarController
+        
+        mainTabBarController?.minimizePlayerDetails()
+        
     }
     
     
@@ -75,10 +171,6 @@ class PlayerDetailsView: UIView {
         })
     }
 
-    
-    
-    
-    
     
     @IBOutlet weak var playPauseButton: UIButton! {
         didSet {

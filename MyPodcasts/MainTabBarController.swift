@@ -22,7 +22,9 @@ class MainTabBarController: UITabBarController {
         
         maximizedTopAnchorConstraint.isActive = false
         //minimizedTopAnchorConstraint.constant = -64
+        bottomAnchorConstraint.constant = view.frame.height
         minimizedTopAnchorConstraint.isActive = true
+        
         
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
             
@@ -30,15 +32,20 @@ class MainTabBarController: UITabBarController {
             //self.tabBar.transform = CGAffineTransform(translationX: 0, y: 100)
             //
             //self.tabBar.frame = frame.offsetBy(dx: 0, dy: 100)
-            
+            self.playerDetailsView.maximizedStackView.alpha = 0
+            self.playerDetailsView.miniPlayerView.alpha = 1
         })
     }
     
     
     func maximizePlayerDetails(episode: Episode?) {
+        minimizedTopAnchorConstraint.isActive = false
         maximizedTopAnchorConstraint.isActive = true
         maximizedTopAnchorConstraint.constant = 0
-        minimizedTopAnchorConstraint.isActive = false
+       
+        
+        
+        bottomAnchorConstraint.constant = 0
         
         if episode != nil {
             playerDetailsView.episode = episode
@@ -53,6 +60,8 @@ class MainTabBarController: UITabBarController {
             //CGAffineTranform not working correct in ios13
             self.tabBar.frame = frame.offsetBy(dx: 0, dy: 100)
             //self.tabBar.transform = CGAffineTransform(translationX: 0, y: 100)
+            self.playerDetailsView.maximizedStackView.alpha = 1
+            self.playerDetailsView.miniPlayerView.alpha = 0
         })
         
     }
@@ -62,6 +71,7 @@ class MainTabBarController: UITabBarController {
     
     var maximizedTopAnchorConstraint: NSLayoutConstraint!
     var minimizedTopAnchorConstraint: NSLayoutConstraint!
+    var bottomAnchorConstraint: NSLayoutConstraint!
     
     fileprivate func setupPlayerDetailsView() {
         print("Setting up PlayerDetailsView")
@@ -73,14 +83,17 @@ class MainTabBarController: UITabBarController {
         playerDetailsView.translatesAutoresizingMaskIntoConstraints = false
         
         maximizedTopAnchorConstraint = playerDetailsView.topAnchor.constraint(equalTo: view.topAnchor, constant: view.frame.height)
-        
         maximizedTopAnchorConstraint.isActive = true
+        
+        bottomAnchorConstraint = playerDetailsView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: view.frame.height)
+        
+        bottomAnchorConstraint.isActive = true
         
         minimizedTopAnchorConstraint = playerDetailsView.topAnchor.constraint(equalTo: tabBar.topAnchor, constant: -64)
         //        minimizedTopAnchorConstraint.isActive = true
         
         playerDetailsView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        playerDetailsView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        //
         playerDetailsView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
     }
     

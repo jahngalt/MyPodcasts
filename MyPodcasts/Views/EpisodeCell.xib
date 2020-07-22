@@ -46,12 +46,22 @@
                             </label>
                         </subviews>
                     </stackView>
+                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100%" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9hd-OG-tF0">
+                        <rect key="frame" x="28" y="65.5" width="76.5" height="34.5"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="28"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                        <color key="shadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <size key="shadowOffset" width="0.0" height="1"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="MB0-xS-g2g" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="G9Y-w6-Eg1"/>
                     <constraint firstAttribute="trailing" secondItem="MB0-xS-g2g" secondAttribute="trailing" constant="16" id="HlW-60-ZUr"/>
+                    <constraint firstItem="9hd-OG-tF0" firstAttribute="centerY" secondItem="X5i-fT-Mi0" secondAttribute="centerY" id="JwR-rP-ZlJ"/>
                     <constraint firstItem="X5i-fT-Mi0" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="RnQ-Td-NBT"/>
                     <constraint firstItem="X5i-fT-Mi0" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="fzq-ly-CW6"/>
+                    <constraint firstItem="9hd-OG-tF0" firstAttribute="centerX" secondItem="X5i-fT-Mi0" secondAttribute="centerX" id="pYX-wd-Rbe"/>
                     <constraint firstItem="MB0-xS-g2g" firstAttribute="leading" secondItem="X5i-fT-Mi0" secondAttribute="trailing" constant="16" id="wtH-QJ-bmk"/>
                 </constraints>
             </tableViewCellContentView>
@@ -59,6 +69,7 @@
             <connections>
                 <outlet property="descriptionLabel" destination="uQM-bA-FFR" id="mUN-be-MoD"/>
                 <outlet property="episodeImageView" destination="X5i-fT-Mi0" id="33o-QW-l3W"/>
+                <outlet property="progressLabel" destination="9hd-OG-tF0" id="Y2i-vL-jDX"/>
                 <outlet property="pubDateLabel" destination="dqL-gv-XlD" id="pTw-OQ-906"/>
                 <outlet property="titleLabel" destination="fsR-FK-7ht" id="lbs-eX-7w8"/>
             </connections>

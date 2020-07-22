@@ -38,7 +38,7 @@ class MainTabBarController: UITabBarController {
     }
     
     
-    func maximizePlayerDetails(episode: Episode?) {
+    func maximizePlayerDetails(episode: Episode?, playlistEpisodes: [Episode] = []) {
         minimizedTopAnchorConstraint.isActive = false
         maximizedTopAnchorConstraint.isActive = true
         maximizedTopAnchorConstraint.constant = 0
@@ -50,6 +50,8 @@ class MainTabBarController: UITabBarController {
         if episode != nil {
             playerDetailsView.episode = episode
         }
+        
+        playerDetailsView.playlistEpisodes = playlistEpisodes
         
         
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
@@ -98,10 +100,15 @@ class MainTabBarController: UITabBarController {
     }
     
     func setupViewControllers() {
+        
+        let layout = UICollectionViewFlowLayout()
+        let favoritesController = FavoritesController(collectionViewLayout: layout)
+        
+        
         viewControllers =  [
             generateNavigationController(with: PodcastsSearchController(), title: "Search", image: #imageLiteral(resourceName: "search")),
-            generateNavigationController(with: ViewController(), title: "Favorites", image: #imageLiteral(resourceName: "favorites")),
-            generateNavigationController(with: ViewController(), title: "Downloads", image: #imageLiteral(resourceName: "downloads"))
+            generateNavigationController(with: favoritesController, title: "Favorites", image: #imageLiteral(resourceName: "favorites")),
+            generateNavigationController(with: DownloadsController(), title: "Downloads", image: #imageLiteral(resourceName: "downloads"))
         ]
     }
     
